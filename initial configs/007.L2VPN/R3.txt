@@ -1,0 +1,45 @@
+en
+conf t
+hostname R3
+!
+no service timestamp
+enable password cisco
+no ip domain lookup
+ip cef distributed
+!
+interface Loopback0
+ ip address 3.3.3.3 255.255.255.255
+!
+interface GigabitEthernet1
+ no ip address
+ no shutdown
+!
+interface GigabitEthernet1.23
+ encapsulation dot1Q 23
+ ip address 20.2.3.3 255.255.255.0
+!
+interface GigabitEthernet1.34
+ encapsulation dot1Q 34
+ ip address 20.3.4.3 255.255.255.0
+!
+interface GigabitEthernet1.36
+ encapsulation dot1Q 36
+ ip address 20.3.6.3 255.255.255.0
+!
+router ospf 1
+ router-id 3.3.3.3
+ network 0.0.0.0 255.255.255.255 area 0
+ mpls ldp autoconfig
+!
+mpls ldp router-id Loopback0
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+ transport preferred none
+line vty 0 4
+ no login
+end
+wr
+
+

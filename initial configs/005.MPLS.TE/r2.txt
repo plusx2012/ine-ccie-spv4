@@ -1,0 +1,227 @@
+R2#sh urn
+       ^
+% Invalid input detected at '^' marker.
+
+R2#sh run
+Building configuration...
+
+Current configuration : 3394 bytes
+!
+! Last configuration change at 14:18:36 UTC Mon Nov 30 2015
+!
+version 15.4
+no service timestamps debug uptime
+no service timestamps log uptime
+no platform punt-keepalive disable-kernel-core
+platform console auto
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition B
+ rd 2:2
+ !
+ address-family ipv4
+  route-target export 200:200
+  route-target import 200:200
+ exit-address-family
+!
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+no ip domain lookup
+
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+mpls traffic-eng tunnels
+multilink bundle-name authenticated
+!
+!
+!
+license udi pid CSR1000V sn 9DMEUSB233Y
+spanning-tree extend system-id
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+interface Loopback0
+ ip address 2.2.2.2 255.255.255.255
+ ipv6 address 2001::2/128
+!
+interface GigabitEthernet1
+ no ip address
+ negotiation auto
+ ip rsvp bandwidth
+!
+interface GigabitEthernet1.12
+ encapsulation dot1Q 12
+ ip address 10.1.2.2 255.255.255.0
+ ip router isis 1
+ ipv6 address 2001:10:1:2::2/64
+ ipv6 router isis 1
+ mpls traffic-eng tunnels
+ ip rsvp bandwidth 1000000
+!
+interface GigabitEthernet1.23
+ encapsulation dot1Q 23
+ ip address 10.2.3.2 255.255.255.0
+ ip router isis 1
+ ipv6 address 2001:10:2:3::2/64
+ ipv6 router isis 1
+ mpls traffic-eng tunnels
+ ip rsvp bandwidth 1000000
+!
+interface GigabitEthernet1.210
+ encapsulation dot1Q 210
+ vrf forwarding B
+ ip address 10.2.10.2 255.255.255.0
+!
+interface GigabitEthernet1.211
+ encapsulation dot1Q 211
+ ip address 10.2.11.2 255.255.255.0
+ ip router isis 1
+ ipv6 address 2001:10:2:11::2/64
+ ipv6 router isis 1
+ mpls traffic-eng tunnels
+ ip rsvp bandwidth 1000000
+!
+interface GigabitEthernet1.212
+ encapsulation dot1Q 212
+ ip address 10.2.12.2 255.255.255.0
+ ip router isis 1
+ ipv6 address 2001:10:2:12::2/64
+ ipv6 router isis 1
+ mpls traffic-eng tunnels
+ ip rsvp bandwidth 1000000
+!
+interface GigabitEthernet1.213
+ encapsulation dot1Q 213
+ ip address 10.2.13.2 255.255.255.0
+ ip router isis 1
+ ipv6 address 2001:10:2:13::2/64
+ ipv6 router isis 1
+ mpls traffic-eng tunnels
+ ip rsvp bandwidth 1000000
+!
+interface GigabitEthernet2
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet3
+ no ip address
+ negotiation auto
+!
+router ospf 1 vrf B
+ redistribute bgp 1 subnets
+ network 0.0.0.0 255.255.255.255 area 0
+!
+router isis 1
+ net 00.0000.0000.0002.00
+ is-type level-2-only
+ metric-style wide
+ log-adjacency-changes
+ passive-interface Loopback0
+ !
+ address-family ipv6
+  multi-topology
+ exit-address-family
+ mpls ldp autoconfig
+ mpls traffic-eng router-id Loopback0
+ mpls traffic-eng level-2
+!
+router bgp 1
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 1.1.1.1 remote-as 1
+ neighbor 1.1.1.1 update-source Loopback0
+ neighbor 11.11.11.11 remote-as 1
+ neighbor 11.11.11.11 update-source Loopback0
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family vpnv4
+  neighbor 1.1.1.1 activate
+  neighbor 1.1.1.1 send-community extended
+  neighbor 11.11.11.11 activate
+  neighbor 11.11.11.11 send-community extended
+ exit-address-family
+ !
+ address-family ipv4 vrf B
+  redistribute ospf 1
+ exit-address-family
+!
+!
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+control-plane host
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+line vty 0 4
+ privilege level 15
+ no login
+line vty 5 10
+ no login
+!
+!
+end
+

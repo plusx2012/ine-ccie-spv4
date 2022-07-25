@@ -1,0 +1,225 @@
+R1#sh run
+Building configuration...
+
+Current configuration : 3562 bytes
+!
+! Last configuration change at 14:13:00 UTC Mon Nov 30 2015
+!
+version 15.4
+no service timestamps debug uptime
+no service timestamps log uptime
+no platform punt-keepalive disable-kernel-core
+platform console auto
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition A
+ rd 1:1
+ !
+ address-family ipv4
+  route-target export 100:100
+  route-target import 100:100
+ exit-address-family
+!
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+no ip domain lookup
+
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+no subscriber templating
+!
+mpls traffic-eng tunnels
+multilink bundle-name authenticated
+!
+!
+!
+license udi pid CSR1000V sn 92HVO0PSL3U
+spanning-tree extend system-id
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+ ipv6 address 2001::1/128
+!
+interface GigabitEthernet1
+ no ip address
+ speed 1000
+ no negotiation auto
+ ip rsvp bandwidth
+!
+interface GigabitEthernet1.12
+ encapsulation dot1Q 12
+ ip address 10.1.2.1 255.255.255.0
+ ip router isis 1
+ ipv6 address 2001:10:1:2::1/64
+ ipv6 router isis 1
+ mpls traffic-eng tunnels
+ ip rsvp bandwidth 1000000
+!
+interface GigabitEthernet1.15
+ encapsulation dot1Q 15
+ vrf forwarding A
+ ip address 10.1.5.1 255.255.255.0
+!
+interface GigabitEthernet1.111
+ encapsulation dot1Q 111
+ ip address 10.1.11.1 255.255.255.0
+ ip router isis 1
+ ipv6 address 2001:10:1:11::1/64
+ ipv6 router isis 1
+ mpls traffic-eng tunnels
+ ip rsvp bandwidth 1000000
+!
+interface GigabitEthernet1.112
+ encapsulation dot1Q 112
+ ip address 10.1.12.1 255.255.255.0
+ ip router isis 1
+ ipv6 address 2001:10:1:12::1/64
+ ipv6 router isis 1
+ mpls traffic-eng tunnels
+ ip rsvp bandwidth 1000000
+!
+interface GigabitEthernet2
+ no ip address
+ speed 1000
+ no negotiation auto
+!
+interface GigabitEthernet3
+ no ip address
+ negotiation auto
+!
+!
+router eigrp A
+ !
+ address-family ipv4 unicast vrf A autonomous-system 1
+  !
+  topology base
+   redistribute bgp 1
+  exit-af-topology
+  network 0.0.0.0
+ exit-address-family
+!
+router isis 1
+ net 00.0000.0000.0001.00
+ is-type level-2-only
+ metric-style wide
+ log-adjacency-changes
+ passive-interface Loopback0
+ !
+ address-family ipv6
+  multi-topology
+ exit-address-family
+ mpls ldp autoconfig
+ mpls traffic-eng router-id Loopback0
+ mpls traffic-eng level-2
+!
+router bgp 1
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 2.2.2.2 remote-as 1
+ neighbor 2.2.2.2 update-source Loopback0
+ neighbor 3.3.3.3 remote-as 1
+ neighbor 3.3.3.3 update-source Loopback0
+ neighbor 11.11.11.11 remote-as 1
+ neighbor 11.11.11.11 update-source Loopback0
+ neighbor 13.13.13.13 remote-as 1
+ neighbor 13.13.13.13 update-source Loopback0
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family vpnv4
+  neighbor 2.2.2.2 activate
+  neighbor 2.2.2.2 send-community extended
+  neighbor 2.2.2.2 route-reflector-client
+  neighbor 3.3.3.3 activate
+  neighbor 3.3.3.3 send-community extended
+  neighbor 3.3.3.3 route-reflector-client
+  neighbor 11.11.11.11 activate
+  neighbor 11.11.11.11 send-community extended
+  neighbor 11.11.11.11 route-reflector-client
+  neighbor 13.13.13.13 activate
+  neighbor 13.13.13.13 send-community extended
+  neighbor 13.13.13.13 route-reflector-client
+ exit-address-family
+ !
+ address-family ipv4 vrf A
+  redistribute eigrp 1
+ exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+no ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+line vty 0 4
+ privilege level 15
+ no login
+line vty 5 10
+ login
+!
+!
+end
+

@@ -1,0 +1,148 @@
+config t
+Building configuration...
+
+Current configuration : 1653 bytes
+!
+! Last configuration change at 13:50:24 UTC Mon Nov 30 2015
+!
+version 15.4
+no service timestamps debug uptime
+no service timestamps log uptime
+no platform punt-keepalive disable-kernel-core
+platform console auto
+!
+hostname R5
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+no ip domain lookup
+
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+multilink bundle-name authenticated
+!
+!
+!
+license udi pid CSR1000V sn 9ORST0AKGHD
+spanning-tree extend system-id
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+interface Loopback0
+ ip address 5.5.5.5 255.255.255.255
+ ipv6 address 2001::5/128
+!
+interface GigabitEthernet1
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet1.15
+ encapsulation dot1Q 15
+ ip address 10.1.5.5 255.255.255.0
+ ipv6 address 2001:10:1:5::5/64
+!
+interface GigabitEthernet1.45
+ encapsulation dot1Q 45
+ ip address 10.4.5.5 255.255.255.0
+ ipv6 address 2001:10:4:5::5/64
+!
+interface GigabitEthernet1.56
+ encapsulation dot1Q 56
+ ip address 10.5.6.5 255.255.255.0
+ ipv6 address 2001:10:5:6::5/64
+!
+interface GigabitEthernet2
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet3
+ no ip address
+ speed 1000
+ no negotiation auto
+!
+!
+router eigrp A
+ !
+ address-family ipv4 unicast autonomous-system 1
+  !
+  topology base
+  exit-af-topology
+  network 0.0.0.0
+ exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+line vty 0 4
+ privilege level 15
+ no login
+line vty 5 10
+ no login
+!
+!
+end
+

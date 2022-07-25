@@ -1,0 +1,54 @@
+en
+conf t
+hostname R4
+!
+!
+no service timestamp
+enable password cisco
+no ip domain lookup
+ip cef distributed
+!
+interface Loopback0
+ ip address 4.4.4.4 255.255.255.255
+!
+interface GigabitEthernet1
+ no ip address
+ no shutdown
+!
+interface GigabitEthernet1.24
+ encapsulation dot1Q 24
+ ip address 20.2.4.4 255.255.255.0
+!
+interface GigabitEthernet1.34
+ encapsulation dot1Q 34
+ ip address 20.3.4.4 255.255.255.0
+!
+interface GigabitEthernet1.45
+ encapsulation dot1Q 45
+ ip address 20.4.5.4 255.255.255.0
+!
+interface GigabitEthernet1.46
+ encapsulation dot1Q 46
+ ip address 20.4.6.4 255.255.255.0
+!
+interface GigabitEthernet2
+ no ip address
+ no shutdown
+!
+router ospf 1
+ router-id 4.4.4.4
+ network 0.0.0.0 255.255.255.255 area 0
+ mpls ldp autoconfig
+!
+mpls ldp router-id Loopback0
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+ transport preferred none
+line vty 0 4
+ no login
+end
+wr
+
+

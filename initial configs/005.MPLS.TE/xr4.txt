@@ -1,0 +1,39 @@
+RP/0/0/CPU0:XR4#sh run
+Mon Nov 30 14:22:08.040 UTC
+Building configuration...
+!! IOS XR Configuration 5.2.0
+!! Last configuration change at Mon Nov 30 14:04:08 2015 by cisco
+!
+hostname XR4
+interface Loopback0
+ ipv4 address 14.14.14.14 255.255.255.255
+ ipv6 address 2001::14/128
+!
+interface GigabitEthernet0/0/0/0
+!
+interface GigabitEthernet0/0/0/0.914
+ ipv4 address 10.9.14.14 255.255.255.0
+ ipv6 address 2001:10:9:14::14/64
+ encapsulation dot1q 914
+!
+interface GigabitEthernet0/0/0/0.1314
+ ipv4 address 10.13.14.14 255.255.255.0
+ ipv6 address 2001:10:13:14::14/64
+ encapsulation dot1q 1314
+!
+route-policy PASS
+  pass
+end-policy
+!
+router ospf 1
+ area 0
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/0.914
+  !
+  interface GigabitEthernet0/0/0/0.1314
+  !
+ !
+!
+end
+

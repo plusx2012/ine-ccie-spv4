@@ -1,0 +1,32 @@
+en
+conf t
+hostname R9
+!
+no service timestamp
+enable password cisco
+no ip domain lookup
+ip cef distributed
+!
+interface Loopback0
+ ip address 9.9.9.9 255.255.255.255
+!
+interface GigabitEthernet1
+ shutdown
+!
+interface GigabitEthernet2
+ no shutdown
+ ip address 10.0.0.9 255.255.255.0
+!
+router ospf 1
+ network 0.0.0.0 255.255.255.255 area 0
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+ transport preferred none
+line vty 0 4
+ no login
+end
+wr
+
+

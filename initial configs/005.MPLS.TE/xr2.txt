@@ -1,0 +1,119 @@
+RP/0/0/CPU0:XR2#sh run
+Mon Nov 30 14:22:02.463 UTC
+Building configuration...
+!! IOS XR Configuration 5.2.0
+!! Last configuration change at Mon Nov 30 14:16:33 2015 by cisco
+!
+hostname XR2
+interface Loopback0
+ description !
+ ipv4 address 12.12.12.12 255.255.255.255
+ ipv6 address 2001::12/128
+!
+interface GigabitEthernet0/0/0/0
+!
+interface GigabitEthernet0/0/0/0.112
+ ipv4 address 10.1.12.12 255.255.255.0
+ ipv6 address 2001:10:1:12::12/64
+ encapsulation dot1q 112
+!
+interface GigabitEthernet0/0/0/0.212
+ ipv4 address 10.2.12.12 255.255.255.0
+ ipv6 address 2001:10:2:12::12/64
+ encapsulation dot1q 212
+!
+interface GigabitEthernet0/0/0/0.312
+ ipv4 address 10.3.12.12 255.255.255.0
+ ipv6 address 2001:10:3:12::12/64
+ encapsulation dot1q 312
+!
+interface GigabitEthernet0/0/0/0.1112
+ ipv4 address 10.11.12.12 255.255.255.0
+ ipv6 address 2001:10:11:12::12/64
+ encapsulation dot1q 1112
+!
+interface GigabitEthernet0/0/0/0.1213
+ ipv4 address 10.12.13.12 255.255.255.0
+ ipv6 address 2001:10:12:13::12/64
+ encapsulation dot1q 1213
+!
+router isis 1
+ is-type level-2-only
+ net 00.0000.0000.0012.00
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-2-only
+  mpls traffic-eng router-id Loopback0
+  mpls ldp auto-config
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.112
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.212
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.312
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.1112
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.1213
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/0.112
+  bandwidth 1000000
+ !
+ interface GigabitEthernet0/0/0/0.212
+  bandwidth 1000000
+ !
+ interface GigabitEthernet0/0/0/0.312
+  bandwidth 1000000
+ !
+ interface GigabitEthernet0/0/0/0.1112
+  bandwidth 1000000
+ !
+ interface GigabitEthernet0/0/0/0.1213
+  bandwidth 1000000
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/0.112
+ !
+ interface GigabitEthernet0/0/0/0.212
+ !
+ interface GigabitEthernet0/0/0/0.312
+ !
+ interface GigabitEthernet0/0/0/0.1112
+ !
+ interface GigabitEthernet0/0/0/0.1213
+ !
+!
+mpls ldp
+!
+end
+

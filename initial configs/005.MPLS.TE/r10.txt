@@ -1,0 +1,132 @@
+R10#sh run
+Building configuration...
+
+Current configuration : 1344 bytes
+!
+! Last configuration change at 14:19:21 UTC Mon Nov 30 2015
+!
+version 15.4
+no service timestamps debug uptime
+no service timestamps log uptime
+no platform punt-keepalive disable-kernel-core
+platform console auto
+!
+hostname R10
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+no ip domain lookup
+
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+multilink bundle-name authenticated
+!
+!
+!
+license udi pid CSR1000V sn 9MWA7QEAAU8
+spanning-tree extend system-id
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+interface Loopback0
+ ip address 10.10.10.10 255.255.255.255
+ ipv6 address 2001::10/128
+!
+interface GigabitEthernet1
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet1.210
+ encapsulation dot1Q 210
+ ip address 10.2.10.10 255.255.255.0
+ ipv6 address 2001:10:2:10::10/64
+!
+interface GigabitEthernet2
+ no ip address
+ negotiation auto
+ service instance 100 ethernet
+  encapsulation default
+ !
+!
+interface GigabitEthernet3
+ no ip address
+ negotiation auto
+!
+router ospf 1
+ network 0.0.0.0 255.255.255.255 area 0
+!
+!
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+line vty 0 4
+ privilege level 15
+ no login
+line vty 5 10
+ no login
+!
+!
+end
+

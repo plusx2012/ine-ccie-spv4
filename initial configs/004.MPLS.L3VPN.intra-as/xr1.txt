@@ -1,0 +1,166 @@
+config t
+Mon Nov 30 14:08:24.809 UTC
+Building configuration...
+!! IOS XR Configuration 5.2.0
+!! Last configuration change at Mon Nov 30 14:00:59 2015 by cisco
+!
+hostname XR1
+logging console debugging
+vrf A
+ address-family ipv4 unicast
+  import route-target
+   100:100
+  !
+  export route-target
+   100:100
+  !
+ !
+!
+vrf B
+ address-family ipv4 unicast
+  import route-target
+   200:200
+  !
+  export route-target
+   200:200
+  !
+ !
+!
+interface Loopback0
+ ipv4 address 11.11.11.11 255.255.255.255
+ ipv6 address 2001::11/128
+!
+interface GigabitEthernet0/0/0/0
+!
+interface GigabitEthernet0/0/0/0.111
+ ipv4 address 10.1.11.11 255.255.255.0
+ ipv6 address 2001:10:1:11::11/64
+ encapsulation dot1q 111
+!
+interface GigabitEthernet0/0/0/0.211
+ ipv4 address 10.2.11.11 255.255.255.0
+ ipv6 address 2001:10:2:11::11/64
+ encapsulation dot1q 211
+!
+interface GigabitEthernet0/0/0/0.411
+ vrf A
+ ipv4 address 10.4.11.11 255.255.255.0
+ ipv6 address 2001:10:4:11::11/64
+ encapsulation dot1q 411
+!
+interface GigabitEthernet0/0/0/0.811
+ vrf B
+ ipv4 address 10.8.11.11 255.255.255.0
+ ipv6 address 2001:10:8:11::11/64
+ encapsulation dot1q 811
+!
+interface GigabitEthernet0/0/0/0.1112
+ ipv4 address 10.11.12.11 255.255.255.0
+ ipv6 address 2001:10:11:12::11/64
+ encapsulation dot1q 1112
+!
+route-policy PASS
+  pass
+end-policy
+!
+router isis 1
+ is-type level-2-only
+ net 00.0000.0000.0011.00
+ address-family ipv4 unicast
+  metric-style wide
+  mpls ldp auto-config
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.111
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.211
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.1112
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+!
+router ospf 1
+ vrf B
+  redistribute bgp 1
+  address-family ipv4 unicast
+  area 0
+   interface GigabitEthernet0/0/0/0.811
+   !
+  !
+ !
+!
+router bgp 1
+ address-family vpnv4 unicast
+ !
+ neighbor 1.1.1.1
+  remote-as 1
+  update-source Loopback0
+  address-family vpnv4 unicast
+   route-reflector-client
+  !
+ !
+ neighbor 2.2.2.2
+  remote-as 1
+  update-source Loopback0
+  address-family vpnv4 unicast
+   route-reflector-client
+  !
+ !
+ neighbor 3.3.3.3
+  remote-as 1
+  update-source Loopback0
+  address-family vpnv4 unicast
+   route-reflector-client
+  !
+ !
+ neighbor 13.13.13.13
+  remote-as 1
+  update-source Loopback0
+  address-family vpnv4 unicast
+   route-reflector-client
+  !
+ !
+ vrf A
+  rd 1:1
+  address-family ipv4 unicast
+   redistribute eigrp 1
+  !
+ !
+ vrf B
+  rd 2:2
+  address-family ipv4 unicast
+   redistribute ospf 1
+  !
+ !
+!
+mpls ldp
+!
+router eigrp 1
+ vrf A
+  address-family ipv4
+   autonomous-system 1
+   redistribute bgp 1
+   interface GigabitEthernet0/0/0/0.411
+   !
+  !
+ !
+!
+end
+

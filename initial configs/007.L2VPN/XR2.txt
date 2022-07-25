@@ -1,0 +1,24 @@
+conf t
+hostname XR2
+cdp
+line console
+ exec-timeout 0 0
+!
+interface Loopback0
+ ipv4 address 20.20.20.20 255.255.255.255
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.0.0.20 255.255.255.0
+ no shutdown
+!
+router ospf 1
+ area 0
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/1
+  !
+ !
+!
+commit
+end
+

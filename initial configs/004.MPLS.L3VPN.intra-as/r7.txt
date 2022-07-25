@@ -1,0 +1,144 @@
+config t
+Building configuration...
+
+Current configuration : 1552 bytes
+!
+! Last configuration change at 13:50:27 UTC Mon Nov 30 2015
+!
+version 15.4
+no service timestamps debug uptime
+no service timestamps log uptime
+no platform punt-keepalive disable-kernel-core
+platform console auto
+!
+hostname R7
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+no ip domain lookup
+
+!
+!
+!
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+no subscriber templating
+!
+multilink bundle-name authenticated
+!
+!
+!
+license udi pid CSR1000V sn 9433QKU0O4I
+spanning-tree extend system-id
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+interface Loopback0
+ ip address 7.7.7.7 255.255.255.255
+ ipv6 address 2001::7/128
+!
+interface GigabitEthernet1
+ no ip address
+ speed 1000
+ no negotiation auto
+!
+interface GigabitEthernet1.37
+ encapsulation dot1Q 37
+ ip address 10.3.7.7 255.255.255.0
+ ipv6 address 2001:10:3:7::7/64
+!
+interface GigabitEthernet1.713
+ encapsulation dot1Q 713
+ ip address 10.7.13.7 255.255.255.0
+ ipv6 address 2001:10:7:13::7/64
+!
+interface GigabitEthernet2
+ no ip address
+ speed 1000
+ no negotiation auto
+!
+interface GigabitEthernet3
+ no ip address
+ negotiation auto
+!
+!
+router eigrp A
+ !
+ address-family ipv4 unicast autonomous-system 1
+  !
+  topology base
+  exit-af-topology
+  network 0.0.0.0
+ exit-address-family
+!
+!
+virtual-service csr_mgmt
+!
+no ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+line vty 0 4
+ privilege level 15
+ no login
+line vty 5 10
+ login
+!
+!
+end
+

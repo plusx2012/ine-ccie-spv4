@@ -1,0 +1,50 @@
+en
+conf t
+hostname R6
+!
+no service timestamp
+enable password cisco
+no ip domain lookup
+ip cef distributed
+!
+interface Loopback0
+ ip address 6.6.6.6 255.255.255.255
+!
+interface GigabitEthernet1
+ no ip address
+ no shutdown
+!
+interface GigabitEthernet1.36
+ encapsulation dot1Q 36
+ ip address 20.3.6.6 255.255.255.0
+!
+interface GigabitEthernet1.46
+ encapsulation dot1Q 46
+ ip address 20.4.6.6 255.255.255.0
+!
+interface GigabitEthernet1.56
+ encapsulation dot1Q 56
+ ip address 20.5.6.6 255.255.255.0
+!
+interface GigabitEthernet1.619
+ encapsulation dot1Q 619
+ ip address 20.6.19.6 255.255.255.0
+!
+!
+router ospf 1
+ router-id 6.6.6.6
+ network 0.0.0.0 255.255.255.255 area 0
+ mpls ldp autoconfig
+!
+mpls ldp router-id Loopback0
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+ transport preferred none
+line vty 0 4
+ no login
+end
+wr
+
+

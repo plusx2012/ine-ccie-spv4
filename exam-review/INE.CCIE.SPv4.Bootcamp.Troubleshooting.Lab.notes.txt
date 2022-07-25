@@ -1,0 +1,59 @@
+1. XR1 is running IS-IS level-1 while others are running level-2
+
+2. R3 running wrong OSPF network type to XR2.
+
+3. XR1 has wrong OSPF domain ID for VRF B process.
+
+4. R2 is not sending VPNv4 extended communities to XR4.
+
+5. R13 has wrong import/export policy under VRF CE.
+
+Ethernet
+-wrong vlan on subinterface
+IGP
+-wrong isis levels
+-wrong isis multitopology
+-wrong ospf network type
+-wrong ospf areas - sham link or virtual link
+LDP
+-loopback not advertised into igp, breaks ldp adjacency
+-wrong ldp password
+-ldp label filter
+-acl blocking udp/tcp 646
+BGP
+-wrong update source
+-wrong EBGP ttl
+-wrong ttl security
+-wrong password
+-wrong AS number
+-acl blocking tcp 179
+-both passive TCP connections
+-address-family not activated
+-extended communities not sent
+-extended communities set wrong (route target rewrite)
+-next-hop set wrong
+-own AS in path
+-next-hop unreachable
+VRF
+-address-family not activated
+-wrong route-target import/export policy
+-wrong bgp next-hop
+-vrf assigned to wrong link
+PE-CE
+-wrong redistribution
+
+Lab 2
+
+1. R6's Loopback0 is in area 0.  Requires virtual link R1-R6, R7-XR3, sham-link R1-XR3, higher cost R7 to R3
+
+2. R18 is not advertising Loopback0 into IS-IS, which breaks LDP
+
+3. XR2 has TTL security breaking peering to XR4, and has wrong RPL for outbound routes
+
+4. XR1 has passive BGP peer and ACL blocking the TCP connection to start from R8
+
+5. R12 has wrong bgp next hop
+
+
+
+

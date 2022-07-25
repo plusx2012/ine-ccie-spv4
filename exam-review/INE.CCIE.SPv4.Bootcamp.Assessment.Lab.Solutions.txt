@@ -1,0 +1,382 @@
+Task 2.1
+
+R2:
+ipv6 unicast-routing
+!
+interface GigabitEthernet2.212
+ ip ospf 1 area 0
+ ospfv3 1 ipv6 area 0
+!
+interface GigabitEthernet2.213
+ ip ospf 1 area 0
+ ospfv3 1 ipv6 area 0
+!
+interface GigabitEthernet2.23
+ ip ospf 1 area 0
+ ospfv3 1 ipv6 area 0
+!
+interface Loopback0
+ ip ospf 1 area 0
+ ospfv3 1 ipv6 area 0
+
+R3:
+ipv6 unicast-routing
+!
+interface GigabitEthernet2.23
+ ip ospf 1 area 0
+ ospfv3 1 ipv6 area 0
+!
+interface GigabitEthernet2.312
+ ip ospf 1 area 0
+ ospfv3 1 ipv6 area 0
+!
+interface GigabitEthernet2.313
+ ip ospf 1 area 0
+ ospfv3 1 ipv6 area 0
+!
+interface Loopback0
+ ip ospf 1 area 0
+ ospfv3 1 ipv6 area 0
+
+XR2:
+router ospf 1
+ area 0
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/0.212
+  !
+  interface GigabitEthernet0/0/0/0.312
+  !
+  interface GigabitEthernet0/0/0/0.1213
+  !
+ !
+!
+router ospfv3 1
+ area 0
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/0.212
+  !
+  interface GigabitEthernet0/0/0/0.312
+  !
+  interface GigabitEthernet0/0/0/0.1213
+  !
+ !
+!
+
+XR3:
+router ospf 1
+ area 0
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/0.213
+  !
+  interface GigabitEthernet0/0/0/0.313
+  !
+  interface GigabitEthernet0/0/0/0.1213
+  !
+ !
+!
+router ospfv3 1
+ area 0
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/0.213
+  !
+  interface GigabitEthernet0/0/0/0.313
+  !
+  interface GigabitEthernet0/0/0/0.1213
+  !
+ !
+!
+end
+
+Task 2.2
+
+R1:
+interface GigabitEthernet2.12
+ ip router isis 1
+ ipv6 router isis 1
+! 
+interface GigabitEthernet2.111
+ ip router isis 1
+ ipv6 router isis 1
+!
+interface GigabitEthernet2.112
+ ipv6 router isis 1
+ ip router isis 1
+!
+router isis 1
+ net 00.0000.0000.0001.00
+ is-type level-2-only
+ metric-style wide
+ passive-interface Loopback0
+ !
+ address-family ipv6
+  multi-topology
+ exit-address-family
+
+R2:
+interface GigabitEthernet2.12
+ ip router isis 1
+ ipv6 router isis 1
+! 
+interface GigabitEthernet2.211
+ ip router isis 1
+ ipv6 router isis 1
+!
+interface GigabitEthernet2.212
+ ipv6 router isis 1
+ ip router isis 1
+!
+router isis 1
+ net 00.0000.0000.0002.00
+ is-type level-2-only
+ metric-style wide
+ passive-interface Loopback0
+ !
+ address-family ipv6
+  multi-topology
+ exit-address-family
+
+XR1:
+router isis 1
+ net 00.0000.0000.0021.00
+ address-family ipv4 unicast
+  metric-style wide
+ !
+ address-family ipv6 unicast
+  no single-topology
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.111
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.211
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.1112
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+!
+
+XR2:
+router isis 1
+ net 00.0000.0000.0022.00
+ address-family ipv4 unicast
+  metric-style wide
+ !
+ address-family ipv6 unicast
+  no single-topology
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.112
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.212
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0.1112
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+!
+
+Task 2.3
+
+R2:
+interface GigabitEthernet2.212
+ ip ospf network point-to-point
+ ospfv3 network point-to-point
+!
+interface GigabitEthernet2.213
+ ip ospf network point-to-point
+ ospfv3 network point-to-point
+!
+interface GigabitEthernet2.23
+ ip ospf network point-to-point
+ ospfv3 network point-to-point
+
+R3:
+interface GigabitEthernet2.23
+ ip ospf network point-to-point
+ ospfv3 network point-to-point
+!
+interface GigabitEthernet2.312
+ ip ospf network point-to-point
+ ospfv3 network point-to-point
+!
+interface GigabitEthernet2.313
+ ip ospf network point-to-point
+ ospfv3 network point-to-point
+
+XR2:
+router ospf 1
+ area 0
+  network point-to-point
+ !
+!
+router ospfv3 1
+ area 0
+  network point-to-point
+ !
+!
+
+XR3:
+router ospf 1
+ area 0
+  network point-to-point
+ !
+!
+router ospfv3 1
+ area 0
+  network point-to-point
+ !
+!
+
+Task 2.4
+
+R2:
+
+XR2:
+ipv6 access-list ISIS_V6_LOOPBACKS
+ 10 permit ipv6 host 2001::1 any
+ 20 permit ipv6 host 2001::11 any
+!
+ipv4 access-list IS-IS_LOOPBACKS
+ 10 permit ipv4 host 1.1.1.1 any
+ 20 permit ipv4 host 11.11.11.11 any
+!
+route-policy IS-IS_TO_OSPF
+  if tag is 110 then
+    drop
+  else
+    set tag 115
+    pass
+  endif
+end-policy
+!
+route-policy OSPF_TO_IS-IS
+  if tag is 115 then
+    drop
+  else
+    set tag 110
+    pass
+  endif
+end-policy
+!
+router isis 1
+ address-family ipv4 unicast
+  distance 109 0.0.0.0/0 IS-IS_LOOPBACKS
+  redistribute ospf 1 route-policy OSPF_TO_IS-IS
+ !
+ address-family ipv6 unicast
+  distance 109 ::/0 ISIS_V6_LOOPBACKS
+  redistribute ospfv3 1 route-policy OSPF_TO_IS-IS
+!
+router ospf 1
+ redistribute isis 1 route-policy IS-IS_TO_OSPF
+!
+router ospfv3 1
+ redistribute isis 1 route-policy IS-IS_TO_OSPF
+ 
+Task 2.5
+
+R1:
+router isis 1
+ mpls ldp autoconfig
+!
+mpls ldp label
+ allocate global host-routes
+!
+mpls ldp session protection duration 300
+
+R2:
+router ospf 1
+ mpls ldp autoconfig
+!
+router isis 1
+ mpls ldp autoconfig
+!
+mpls ldp label
+ allocate global host-routes
+!
+mpls ldp session protection duration 300
+
+R3:
+router ospf 1
+ mpls ldp autoconfig
+!
+mpls ldp label
+ allocate global host-routes
+!
+mpls ldp session protection duration 300
+
+XR1:
+router isis 1
+ address-family ipv4 unicast
+  mpls ldp auto-config
+ !
+!
+mpls ldp
+ session protection duration 600
+ address-family ipv4
+  label
+   local
+    allocate for host-routes
+
+XR2:
+router isis 1
+ address-family ipv4 unicast
+  mpls ldp auto-config
+ !
+!
+router ospf 1
+ mpls ldp auto-config
+!
+mpls ldp
+ session protection duration 600
+ address-family ipv4
+  label
+   local
+    allocate for host-routes
+
+XR3:
+router ospf 1
+ mpls ldp auto-config
+!
+mpls ldp
+ session protection duration 600
+ address-family ipv4
+  label
+   local
+    allocate for host-routes

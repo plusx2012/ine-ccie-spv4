@@ -1,0 +1,30 @@
+route-policy IS-IS_TO_OSPF
+  if tag is 110 then
+    drop
+  else
+    set tag 115
+    pass
+  endif
+end-policy
+!
+route-policy OSPF_TO_IS-IS
+  if tag is 115 then
+    drop
+  else
+    set tag 110
+    pass
+  endif
+end-policy
+
+router isis 1
+ address-family ipv4 unicast
+  redistribute ospf 1 route-policy OSPF_TO_IS-IS
+ !
+ address-family ipv6 unicast
+  redistribute ospfv3 1 route-policy OSPF_TO_IS-IS
+!
+router ospf 1
+ redistribute isis 1 route-policy IS-IS_TO_OSPF
+!
+router ospfv3 1
+ redistribute isis 1 route-policy IS-IS_TO_OSPF

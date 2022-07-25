@@ -1,0 +1,19 @@
+XR2:
+interface GigabitEthernet0/0/0/0.212 
+interface GigabitEthernet0/0/0/0.312 
+interface GigabitEthernet0/0/0/0.1213
+
+XR3:
+interface GigabitEthernet0/0/0/0.213 
+interface GigabitEthernet0/0/0/0.313 
+interface GigabitEthernet0/0/0/0.1213
+
+R3:
+int Lo0    
+  ipv6 ospf 1 area 0
+int Gi2.313
+ ipv6 ospf 1 area 0
+int Gi2.312
+ ipv6 ospf 1 area 0
+int Gi2.23 
+ ipv6 ospf 1 area 0

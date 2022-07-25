@@ -1,0 +1,15 @@
+XR2:
+ipv4 access-list IS-IS_LOOPBACKS
+ 10 permit ipv4 host 1.1.1.1 any
+ 20 permit ipv4 host 11.11.11.11 any
+!
+router isis 1
+ address-family ipv4 unicast
+  distance 109 0.0.0.0/0 IS-IS_LOOPBACKS
+!
+ipv6 access-list ISIS_V6_LOOPBACKS
+ 10 permit ipv6 host 2001::1 any
+!
+router isis 1
+ address-family ipv6 unicast
+  distance 109 ::/0 ISIS_V6_LOOPBACKS

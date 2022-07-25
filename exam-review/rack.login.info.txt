@@ -1,0 +1,10 @@
+telnet to sprackX.ine.com
+X is your rack number   
+
+!!! To reach menu !!!
+login: ccie
+password: spv4
+
+!!! To reach access server !!!
+login: admin
+password: spv4

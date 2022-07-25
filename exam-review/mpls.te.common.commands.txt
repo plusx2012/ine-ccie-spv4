@@ -1,0 +1,12 @@
+! debug head end calculation
+debug mpls traffic-eng path lookup 
+
+! debug head to tail end label signalling
+debug mpls traffic-eng tunnels signalling 
+
+! check which nodes/links are running TE
+XE - show mpls traffic-eng topology | in TE Id|Intf Address  
+XR - show mpls traffic-eng topology | in "TE Id|Intf Address"
+
+! check final tunnel result
+show mpls traffic-eng tunnels
